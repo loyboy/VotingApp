@@ -38,5 +38,5 @@ app.listen(port, function onStart(err) {
   if (err) {
     console.log(err);
   }
-  console.info('==> 🌎 Server Listens on port .', port, port);
+  console.info('==> 🌎 Server Listens on port .', port);
 });
