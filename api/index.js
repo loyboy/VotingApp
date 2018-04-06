@@ -4,24 +4,18 @@ module.exports = (() => {
 	let api = express.Router();
 
 	api.post("/login",function (req,res,next){
-		console.log("receive login request  " + req.body.email );
+
 		var result = {};
 		res.setHeader('Content-Type', 'application/json');
-		var ans = authenticate(req.body).then(data=> {
-			if(data.ok) {
-				result = {
-					ok : true,
-					message: "Success"
-				};
-			}
-			else {
-				result = {
-					ok:false,
-					message: "Error"
-				};
-			}
-    		res.send(JSON.stringify(result));
-    		next();
+		authenticate(req.body).then(data => {
+			return data.json();
+		}).then(user=> {
+
+			res.send(JSON.stringify(user));
+			next();
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+			next();
 		});
 	});
 	api.post("/register",function(req,res,next) {
@@ -31,14 +25,29 @@ module.exports = (() => {
 	return api;
 });
 
-function authenticate(data) {
-	return new Promise( (resolve,reject) => {
-		setTimeout(() => {
-		if(data.email === "ramintagizade@mail.ru" && data.password === "pass") 
-			resolve({ok:true,status:"success"});
-		else {
-			reject({ok:false,status:"error"});
+
+
+function authenticate(body) {
+	console.log(JSON.stringify(body))
+	return new Promise((resolve,reject) => {
+		let user = {};
+		if(body.email == "ramintagizade@mail.ru" && body.password=="pass"){
+			user = {
+				id:1,
+				username:"ramin",
+				email:'ramintagizade@mail.ru',
+			};
+			let resJSON = {
+				id:user.id,
+				username:user.username,
+				email:user.email,
+				token:'login-token'
+			};
+			resolve({ok:true,json:() => resJSON});
 		}
-		},100); 
+		else {
+			reject({ok:false,message: "Email or password is wrong."});
+			return;
+		}
 	});
 }

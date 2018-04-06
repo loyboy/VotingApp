@@ -1,17 +1,9 @@
 import {combineReducers} from 'redux';
 import {login} from './../actions/index';
-
-const fake = function (state =  {}, action ) {
-	switch(action.type) {
-		case 'LOGIN' : 
-			return 1;
-		default :
-			return 0;
-	}
-}
+import {auth} from './auth';
 
 const rootReducer = combineReducers({
-	fake
+	auth
 });
 
 export default rootReducer;

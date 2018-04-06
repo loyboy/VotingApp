@@ -26,25 +26,7 @@ class Login extends React.Component {
 			email:email,
 			password:password
 		};
-		const requestOptions = {
-        	method: 'POST',
-        	headers: { 'Content-Type': 'application/json' },
-        	body: JSON.stringify(user)	
-    	};
-    	dispatch(userActions.login(this.state.email,this.state.password));
-    	/*
-    	fetch('/login', requestOptions).then(response => {
-            if (!response.ok) {
-                return Promise.reject(response.statusText);
-            }
-            return response.json()}).then(user => {
-            // login success with  a token 
-            if (user) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                console.log(JSON.stringify(user));
-            }
-            return user;
-        }); */
+    	dispatch(userActions.login(user.email,user.password));
 	}
 	render() {
 		return (
@@ -68,7 +50,6 @@ class Login extends React.Component {
 }
 function mapStateToProps(state) {
 	const {fake}   =  state;
-	console.log("mapStateToProps " + fake);
 	return {
 		fake
 	}
