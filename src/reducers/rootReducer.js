@@ -1,9 +1,10 @@
 import {combineReducers} from 'redux';
 import {login} from './../actions/index';
-import {auth} from './auth';
+import {auth,register} from './auth';
 
 const rootReducer = combineReducers({
-	auth
+	auth,
+	register
 });
 
 export default rootReducer;

@@ -28,6 +28,22 @@ function logout() {
 
 }
 
-function register() {
+function register(username, email, password) {
+	const opts = {
+		method:"POST",
+		headers: {"Content-Type": "application/json"},
+		body:JSON.stringify({username, email, password})
+	};
 
+	return fetch('/register', opts).then(res => {
+		if(!res.ok) {
+			return Promise.reject(res.statusText)
+		}
+		return res.json(); 
+	}).then( user => {
+		if(user && user.token) {
+			localStorage.setItem('user', JSON.stringify(user));
+		}
+		return user;
+	})
 }

@@ -18,10 +18,15 @@ class Login extends React.Component {
 			[name]:value
 		});
 	}
+	componentDidUpdate(prevState,prevProps) {
+		if(prevProps.auth!=this.props.auth) {
+			// update 
+		}
+	}
 	handleSubmit(e) {
 		e.preventDefault();
 		const {email,password} = this.state;
-		const {dispatch,fake}  = this.props;
+		const {dispatch,auth}  = this.props;
 		const user = {
 			email:email,
 			password:password
@@ -49,9 +54,9 @@ class Login extends React.Component {
 	}
 }
 function mapStateToProps(state) {
-	const {fake}   =  state;
+	const {auth}   =  state;
 	return {
-		fake
+		auth
 	}
 }
 

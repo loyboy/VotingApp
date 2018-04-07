@@ -12,6 +12,6 @@
 
 <code>mongod</code>
 
-### Start the dev Server 
+### Start the Server 
 
 <code> npm run dev-server </code>

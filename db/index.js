@@ -21,7 +21,7 @@ exports.user = {
 };
 
 function findUser(email,password) {
-	console.log(email + " " + password )
+	
 	return new Promise((resolve,reject)=> { 
 		db.collection("users").findOne({email:email},function(err,res){
 			if(res) {

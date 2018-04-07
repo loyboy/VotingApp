@@ -1,4 +1,6 @@
 import React from 'react';
+import {userActions} from './actions/index';
+import {connect} from 'react-redux';
 
 class Register extends React.Component {
 	constructor(props) {
@@ -19,6 +21,14 @@ class Register extends React.Component {
 	}
 	handleSubmit(e) {
 		e.preventDefault();
+		const {username, email, password} = this.state;
+		const {dispatch,auth}  = this.props;
+		const user = {
+			username:username,
+			email:email,
+			password:password
+		};
+    	dispatch(userActions.register(user.username,user.email,user.password));
 	}
 	render() {
 		return (
@@ -43,5 +53,11 @@ class Register extends React.Component {
 		)
 	}
 }
-
+function mapStateToProps(state) {
+	const {auth}   =  state;
+	return {
+		auth
+	}
+}
+Register = connect(mapStateToProps)(Register);
 export default Register;
