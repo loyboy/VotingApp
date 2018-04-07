@@ -1,1 +1,17 @@
-# VotingApp
+## VotingApp
+### Clone this repository
+<code>git clone https://github.com/ramintagizade/VotingApp.git </code>
+
+<code> cd VotingApp </code>
+
+### Install dependencies
+
+<code> npm install </code>
+
+### Start MongoDB daemon
+
+<code>mongod</code>
+
+### Start the dev Server 
+
+<code> npm run dev-server </code>
