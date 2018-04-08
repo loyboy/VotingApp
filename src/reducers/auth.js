@@ -37,3 +37,20 @@ export function register (state = {}, action ) {
 			return state;
 	}
 }
+
+export function alert( state = {} , action ) {
+	switch(action.type) {
+		case 'ALERT.SUCCESS' :
+			return {
+				type:'alert-success',
+				message:action.message
+			};
+		case 'ALERT.ERROR' :
+			return {
+				type:'alert-error',
+				message:action.message
+			}; 
+		default:
+			return state;
+	}
+}

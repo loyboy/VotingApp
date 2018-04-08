@@ -66,7 +66,7 @@ function register(body) {
 				resolve({ok:true,json:()=>res});
 			}
 		}).catch(err => {
-			reject({ok:false,message:"Error occured during register"});
+			reject({ok:false,message:err.message});
 		});
 	});
 }

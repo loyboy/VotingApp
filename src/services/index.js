@@ -18,7 +18,7 @@ function login(email, password) {
 		return res.json(); 
 	}).then( user => {
 		if(user && user.token) {
-			localStorage.setItem('user', JSON.stringify(user));
+			localStorage.setItem('user', user.token);
 		}
 		return user;
 	})
@@ -42,7 +42,7 @@ function register(username, email, password) {
 		return res.json(); 
 	}).then( user => {
 		if(user && user.token) {
-			localStorage.setItem('user', JSON.stringify(user));
+			localStorage.setItem('user', user.token);
 		}
 		return user;
 	})

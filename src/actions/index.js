@@ -1,5 +1,6 @@
 import {userService} from '../services/index';
 import { createBrowserHistory } from 'history';
+import {alert} from './alert';
 
 const history = createBrowserHistory();
 
@@ -23,6 +24,7 @@ function login(email,password) {
 				}
 				else {
 					dispatch(failure(user));
+					dispatch(alert.error(user));
 				}
 			}
 		);
@@ -56,6 +58,7 @@ function register(username, email,password) {
 			user =>  {
 				if(user.token) {
 					dispatch(success(user));
+					dispatch(alert.success("Successfully registered"));
 					// redirect to home page 
 					history.push("/");
 					window.location.reload();
@@ -63,6 +66,7 @@ function register(username, email,password) {
 				}
 				else {
 					dispatch(failure(user));
+					dispatch(alert.error(user));
 				}
 			}
 		);
