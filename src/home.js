@@ -12,7 +12,7 @@ class Home extends React.Component {
 					Voting App
 				</div>
 				<div className="home-title">
-					Create polls with live results 
+					<p>Create polls with live results </p>
 				</div>
 				<div className="signup">
 					<a className="btn btn-success" href="/register"> Sign Up</a>

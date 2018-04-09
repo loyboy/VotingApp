@@ -6,7 +6,8 @@ const history = createBrowserHistory();
 
 export const userActions = {
 	login,
-	register
+	register,
+	logout
 };	
 
 function login(email,password) {
@@ -90,4 +91,10 @@ function register(username, email,password) {
 			error
 		};
 	}
+}
+function logout() {
+	userService.logout();
+	return {
+		type:"LOGOUT"
+	};
 }

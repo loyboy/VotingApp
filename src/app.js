@@ -6,12 +6,15 @@ import { Switch, Redirect,browserHistory } from 'react-router';
 import Login from './login';
 import Register from './register';
 import Home from './home';
+import Dashboard from './dashboard';
+import Logout from './logout'
 
 class VotingApp extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 	render() {
+		var signed = localStorage.getItem("user");
 		return (
 			<div>
 			 <div className="navar-menu">
@@ -20,8 +23,15 @@ class VotingApp extends React.Component {
     				Voting App 
   				</a>
   				 <div className="navbar-auth">
-  				 	<a className="navbar-right btn btn-success" href="/register"> Sign Up</a>
-  				 	<a className="navbar-right btn btn-default" href="/login"> Sign In </a>
+  				 	{	!signed &&
+  				 		<a className="navbar-right btn btn-success" href="/register"> Sign Up</a>
+  				 	}
+  				 	{	!signed && 
+  				 		<a className="navbar-right btn btn-default" href="/login"> Sign In </a>
+  				 	}
+  				 	{	signed && 
+  				 		<a className="navbar-right btn btn-default" href="/logout"> Sign out </a>
+  				 	}
 				</div>
 			  </nav>
 			 </div>
@@ -29,9 +39,10 @@ class VotingApp extends React.Component {
 			 <HashRouter >
 		    	<div>
 		        	<Switch>
-		        		<Route exact path="/" component={Home} />
-		          		<Route exact path="/login" component={Login} />
+		        		<Route exact path="/" component={signed ? Dashboard: Home} />
+		          		<Route exact path="/login" component={ Login} />
 		          		<Route exact path="/register" component={Register} />
+		          		<Route exact path="/logout" component={Logout} />
 		        	</Switch>
 		    	</div>
 		  	</HashRouter>

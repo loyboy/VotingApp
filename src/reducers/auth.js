@@ -14,6 +14,8 @@ export function auth (state = {}, action ) {
 			};
 		case 'LOGIN_FAILURE' : 
 			return {};
+		case 'LOGOUT' :
+			return {};
 		default :
 			return state;
 	}

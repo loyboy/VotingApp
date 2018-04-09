@@ -24,10 +24,6 @@ function login(email, password) {
 	})
 }
 
-function logout() {
-
-}
-
 function register(username, email, password) {
 	const opts = {
 		method:"POST",
@@ -46,4 +42,9 @@ function register(username, email, password) {
 		}
 		return user;
 	})
+}
+
+function logout() {
+	localStorage.removeItem("user");
+	window.location.href="/";
 }
