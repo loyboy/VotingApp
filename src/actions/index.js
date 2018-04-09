@@ -7,7 +7,8 @@ const history = createBrowserHistory();
 export const userActions = {
 	login,
 	register,
-	logout
+	logout,
+	sendPoll
 };	
 
 function login(email,password) {
@@ -17,6 +18,7 @@ function login(email,password) {
 		userService.login(email,password).then(
 			user =>  {
 				if(user.token) {
+
 					dispatch(success(user));
 					// redirect to home page 
 					history.push("/");
@@ -97,4 +99,41 @@ function logout() {
 	return {
 		type:"LOGOUT"
 	};
+}
+
+function sendPoll (email, name, values) {
+	console.log("email " + email +" " + name + " " + values);
+	
+	return dispatch => {
+		dispatch(request(name));
+		userService.sendPoll(email,name,values).then(data => {
+			console.log("actino " + JSON.stringify(data))
+			if(data.ok) {
+				dispatch(success(data.message));
+			}
+			else {
+				dispatch(failure(data.message));
+			}
+		});
+	};
+
+
+	function request(poll) {
+		return {
+			type:"SEND_POLL_REQUEST",
+			poll
+		};
+	}
+	function success(poll) {
+		return {
+			type:"SEND_POLL_SUCCESS",
+			poll
+		};
+	}
+	function failure(error) {
+		return {
+			type:"SEND_POLL_FAILURE",
+			error
+		};
+	}
 }

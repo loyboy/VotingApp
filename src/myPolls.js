@@ -4,10 +4,12 @@ class MyPolls extends React.Component{
 	constructor(props) {
 		super(props);
 	}
-
+	
 	render () {
 		return (
-			<div> MyPolls </div>
+			<div className="my-polls"> 
+				MyPolls 
+			</div>
 		);
 	}
 }

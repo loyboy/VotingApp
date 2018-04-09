@@ -1,6 +1,7 @@
+let user = localStorage.getItem("user");
+const iniState = user ? {loggedIn:true,user} : {};
 
-
-export function auth (state = {}, action ) {
+export function auth (state = iniState, action ) {
 	switch(action.type) {
 		case 'LOGIN_REQUEST' : 
 			return {

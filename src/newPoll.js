@@ -1,4 +1,6 @@
 import React from 'react';
+import {userActions} from './actions/index';
+import {connect} from 'react-redux';
 
 class NewPoll extends React.Component{
 	constructor(props) {
@@ -32,8 +34,11 @@ class NewPoll extends React.Component{
 			values:values
 		});
 	}
-	submitPoll() {	
-		console.log("polls : " + this.state.name + " => " + this.state.values);
+	submitPoll() {
+		const email = JSON.parse(localStorage.getItem("user")).email;
+		let pollName = this.state.name;
+		let options = this.state.values;
+		this.props.dispatch(userActions.sendPoll(email, pollName,options));
 	}
 	render () {
 		var self = this;
@@ -66,5 +71,12 @@ class NewPoll extends React.Component{
 		);
 	}
 }
+function mapStateToProps(state) {
+	const {poll}   =  state;
+	return {
+		poll
+	}
+}
 
+NewPoll = connect(mapStateToProps)(NewPoll);
 export default NewPoll;

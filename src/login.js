@@ -13,6 +13,11 @@ class Login extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+	componentDidMount() {
+		// if already logged 
+		if(this.props.auth.loggedIn)
+			window.location.href="/";
+	}
 	handleChange(e) {
 		const {name, value} = e.target;
 		this.setState({

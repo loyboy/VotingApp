@@ -1,5 +1,6 @@
 var express = require("express");
 var user = require("../db/index").user;
+var poll = require("../db/index").poll;
 var jwt = require("jsonwebtoken");
 
 module.exports = (() => {
@@ -31,6 +32,19 @@ module.exports = (() => {
 		});
 	});
 
+	api.post("/sendPoll",function (req,res,next) {
+		res.setHeader("Content-Type","application/json");
+		createPoll(req.body).then(data => {
+			return data.json();
+		}).then(poll => {
+			res.send(JSON.stringify(poll));
+			next();
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+			next();
+		});
+	});
+
 	return api;
 });
 
@@ -56,13 +70,25 @@ function authenticate(body) {
 
 function register(body) {
 	return new Promise((resolve,reject) => {
-		user.createUser(body).then(res=> {
+		user.createUser(body).then(res => {
 			if(res) {
 				let token = jwt.sign({
 				  exp: Math.floor(Date.now() / 1000) + (60 * 60),
 				  data: 'voting-app'
 				}, 'secret');
 				res.token = token;
+				resolve({ok:true,json:()=>res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+}
+
+function createPoll(body){
+	return new Promise((resolve,reject) => {
+		poll.createPoll(body).then(res => {
+			if(res) {
 				resolve({ok:true,json:()=>res});
 			}
 		}).catch(err => {

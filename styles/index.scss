@@ -1,3 +1,6 @@
+body {
+	overflow-x: hidden;
+}
 .navbar-brand {
 	color:white;
 }
@@ -23,9 +26,14 @@
 .home-title {
 	margin-left: auto;
 	margin-right: auto;
-	width: 300px;
+	width: 200px;
 	height: 100%;
 	font-size: 1.3em;
+}
+.home-title p {
+	position: absolute;
+	width: 100%;
+	margin-left: -20px;
 }
 .app-title {
 	margin-left: auto;
@@ -46,4 +54,51 @@
 }
 .alert-block {
 	color:red;
+}
+.poll-btn {
+	margin-top: -100px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+.poll-btn a {
+	display: block;
+	float: left;
+	padding-left:10px;
+	margin-left:5px;
+}
+.new-poll {
+	clear:both;
+	margin-left: auto;
+	margin-right: auto;
+	width: 250px;
+	padding-top:50px;
+	color:black;
+}
+.more-option-btn {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100px;
+	margin-top: 10px;
+}
+
+.option-submit-btn {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100px;
+	margin-top: 10px;
+}
+.option-submit-btn  a {
+	margin-left: auto;
+	margin-right: auto;
+	width: 110px !important;
+	margin-top: 10px;
+}
+.my-polls {
+	clear:both;
+	margin-left: auto;
+	margin-right: auto;
+	width: 250px;
+	padding-top:50px;
+	color:black;
 }

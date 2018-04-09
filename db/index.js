@@ -20,6 +20,10 @@ exports.user = {
 	createUser
 };
 
+exports.poll = {
+	createPoll
+};
+
 function findUser(email,password) {
 	
 	return new Promise((resolve,reject)=> { 
@@ -58,11 +62,34 @@ function createUser(user) {
 				db.collection("users").insertOne(account,function(err,res){
 					if(err) reject({ok:false,message:"Insertion error "});
 					if(res)
-						resolve({ok:true,message:"User created "});
+						resolve({ok:true,message:"User is created "});
 					
 				});
 			}
 
+		});
+	});
+}
+
+function createPoll(poll) {
+	let pollJSON = {
+		name:poll.name,
+		values:poll.values,
+		createdBy:poll.email,
+		createdAt:new Date()
+	};
+	return new Promise((resolve,reject) => {
+		db.collection("polls").findOne({name:pollJSON.name,createdBy:pollJSON.createdBy},function(err,res){
+			if(res) {
+				reject({ok:false,message:"Poll has already been created"});
+			}
+			else {
+				db.collection("polls").insertOne(pollJSON,function(err,res){
+					if(err) reject({ok:false,message:"Poll creation error"});
+					if(res)
+						resolve({ok:true,message:"Poll is created"});
+				});
+			}
 		});
 	});
 }

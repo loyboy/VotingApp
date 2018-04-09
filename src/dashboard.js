@@ -1,10 +1,20 @@
 import React from 'react';
 import NewPoll from './newPoll';
+import MyPolls from './myPolls';
+
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			poll:0
+		};
+		this.polls = this.polls.bind(this);
 	}
-
+	polls (ev) {
+		this.setState({
+			poll:ev.target.name
+		});
+	}
 	render() {
 		return (
 			<div className="home"> 
@@ -15,12 +25,19 @@ class Dashboard extends React.Component {
 					<p>Manage your polls today?</p> 
 				</div>
 				<div className="poll-btn">
-					<a className="btn btn-success" href="/newPoll">New Poll</a>
+					<a className="btn btn-success" href="#newPoll" name="0" onClick={this.polls}>New Poll</a>
 				</div>
 				<div className="poll-btn">
-					<a className="btn btn-primary" href="/myPolls">My Polls</a>
+					<a className="btn btn-primary" href="#myPolls" name="1" onClick={this.polls}>My Polls</a>
 				</div>
-				<NewPoll/>
+				{
+					this.state.poll=="0" && 
+					<NewPoll/>
+				}
+				{
+					this.state.poll=="1" && 
+					<MyPolls/>
+				}
 			</div>
 		);
 	}

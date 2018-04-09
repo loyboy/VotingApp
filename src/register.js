@@ -14,6 +14,11 @@ class Register extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+	componentDidMount() {
+		// if already logged 
+		if(this.props.auth.loggedIn)
+			window.location.href="/";
+	}
 	handleChange(e) {
 		const {name,value} = e.target;
 		this.setState({
@@ -73,10 +78,11 @@ class Register extends React.Component {
 	}
 }
 function mapStateToProps(state) {
-	const {register,alert}   =  state;
+	const {register,alert,auth}   =  state;
 	return {
 		register,
-		alert
+		alert,
+		auth
 	}
 }
 Register = connect(mapStateToProps)(Register);
