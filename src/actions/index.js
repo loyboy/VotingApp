@@ -8,7 +8,8 @@ export const userActions = {
 	login,
 	register,
 	logout,
-	sendPoll
+	sendPoll,
+	getMyPolls
 };	
 
 function login(email,password) {
@@ -102,12 +103,11 @@ function logout() {
 }
 
 function sendPoll (email, name, values) {
-	console.log("email " + email +" " + name + " " + values);
 	
 	return dispatch => {
 		dispatch(request(name));
 		userService.sendPoll(email,name,values).then(data => {
-			console.log("actino " + JSON.stringify(data))
+
 			if(data.ok) {
 				dispatch(success(data.message));
 			}
@@ -133,6 +133,38 @@ function sendPoll (email, name, values) {
 	function failure(error) {
 		return {
 			type:"SEND_POLL_FAILURE",
+			error
+		};
+	}
+}
+
+function getMyPolls(email) {
+	return dispatch => {
+		dispatch(request(email));
+		userService.getMyPolls(email).then(data => {
+			if(data.ok) {
+				dispatch(success(data.message));
+			}
+			else{
+				dispatch(failure(data.message));
+			}
+		});
+	};
+	function request(email) {
+		return {
+			type:"GET_MY_POLLS_REQUEST",
+			email
+		};
+	}
+	function success(email) {
+		return {
+			type:"GET_MY_POLLS_SUCCESS",
+			email
+		};
+	}
+	function failure(error) {
+		return {
+			type:"GET_MY_POLLS_FAILURE",
 			error
 		};
 	}

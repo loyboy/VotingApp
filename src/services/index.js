@@ -2,7 +2,8 @@ export const userService = {
 	login,
 	logout,
 	register,
-	sendPoll
+	sendPoll,
+	getMyPolls
 };
 
 function login(email, password) {
@@ -63,4 +64,18 @@ function sendPoll(email,name,values) {
 		console.log("res poll " + JSON.stringify(poll));
 		return poll;
 	});	
+}
+
+function getMyPolls(email) {
+	const opts = {
+		method:"POST",
+		headers: {"Content-Type": "application/json"},
+		body:JSON.stringify({email})
+	};
+	return fetch("/myPolls",opts).then(res => {
+		if(!res.ok) return Promise.reject(res.statusText);
+		return res.json();
+	}).then(polls => {
+		return polls;
+	});
 }

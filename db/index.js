@@ -21,7 +21,8 @@ exports.user = {
 };
 
 exports.poll = {
-	createPoll
+	createPoll,
+	getMyPolls
 };
 
 function findUser(email,password) {
@@ -90,6 +91,17 @@ function createPoll(poll) {
 						resolve({ok:true,message:"Poll is created"});
 				});
 			}
+		});
+	});
+}
+
+function getMyPolls (email) {
+	return new Promise((resolve,reject) => {
+		db.collection("polls").find({createdBy:email}).toArray(function(err,res){
+			if(err) reject({ok:false,message:err});
+			if(!res.length) reject({ok:false,message:"You don't have any polls"});
+			if(res) 
+				resolve({ok:true,message:res});
 		});
 	});
 }

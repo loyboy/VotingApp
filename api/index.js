@@ -45,6 +45,19 @@ module.exports = (() => {
 		});
 	});
 
+	api.post("/myPolls",function(req,res,next) {
+		res.setHeader("Content-Type","application/json");
+		getMyPolls(req.body.email).then(data => {
+			return data.json();
+		}).then(polls => {
+			res.send(JSON.stringify(polls));
+			next();
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+			next();
+		});
+	});
+
 	return api;
 });
 
@@ -90,6 +103,18 @@ function createPoll(body){
 		poll.createPoll(body).then(res => {
 			if(res) {
 				resolve({ok:true,json:()=>res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+}
+function getMyPolls(email) {
+	
+	return new Promise((resolve,reject) => {
+		poll.getMyPolls(email).then(res => {
+			if(res) {
+				resolve({ok:true,json:() => res});
 			}
 		}).catch(err => {
 			reject({ok:false,message:err.message});
