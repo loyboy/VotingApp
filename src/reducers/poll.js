@@ -36,3 +36,22 @@ export function getMyPolls (state ={} ,action ) {
 			return state;
 	}
 }
+export function deleteMyPoll(state = {}, action ) {
+	switch(action.type) {
+		case "DELETE_MY_POLL_REQUEST": 
+			return {
+				deleting_poll:true,
+			};
+		case "DELETE_MY_POLL_SUCCESS" : 
+			return {
+				deleted_poll:true,
+				name:action.name
+			};
+		case "DELETE_MY_POLL_FAILURE" :
+			return {
+				error:action.error
+			};
+		default :
+			return state;
+	}
+}

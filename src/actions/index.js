@@ -9,7 +9,8 @@ export const userActions = {
 	register,
 	logout,
 	sendPoll,
-	getMyPolls
+	getMyPolls,
+	deleteMyPoll
 };	
 
 function login(email,password) {
@@ -166,6 +167,37 @@ function getMyPolls(email) {
 		return {
 			type:"GET_MY_POLLS_FAILURE",
 			error
+		};
+	}
+}
+function deleteMyPoll(email,name) {
+	return dispatch => {
+		dispatch(request(name));
+		userService.deleteMyPoll(email,name).then(data => {
+			if(data.ok) {
+				dispatch(success(data.message));
+			}
+			else {
+				dispatch(failure(data.message));
+			}
+		});
+	}
+	function request(name) {
+		return {
+			type:"DELETE_MY_POLL_REQUEST",
+			name
+		};
+	}
+	function success(name) {
+		return {
+			type:"DELETE_MY_POLL_SUCCESS",
+			name
+		};
+	}
+	function failure(name) {
+		return {
+			type:"DELETE_MY_POLL_FAILURE",
+			name
 		};
 	}
 }

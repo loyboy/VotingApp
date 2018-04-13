@@ -1,6 +1,8 @@
 import React from 'react';
 import NewPoll from './newPoll';
 import MyPolls from './myPolls';
+import { BrowserRouter as HashRouter, Route, Link } from 'react-router-dom';
+import Poll from './poll';
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -38,6 +40,7 @@ class Dashboard extends React.Component {
 					this.state.poll=="1" && 
 					<MyPolls/>
 				}
+				<Route path="/:id" component={Poll} />
 			</div>
 		);
 	}

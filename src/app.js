@@ -7,7 +7,8 @@ import Login from './login';
 import Register from './register';
 import Home from './home';
 import Dashboard from './dashboard';
-import Logout from './logout'
+import Logout from './logout';
+import Poll from './poll';
 
 class VotingApp extends React.Component {
 	constructor(props) {
@@ -43,6 +44,9 @@ class VotingApp extends React.Component {
 		          		<Route exact path="/login" component={ Login} />
 		          		<Route exact path="/register" component={Register} />
 		          		<Route exact path="/logout" component={Logout} />
+		        		<Route path="/polls" component={Dashboard} >
+		        		</Route>
+		        			
 		        	</Switch>
 		    	</div>
 		  	</HashRouter>
