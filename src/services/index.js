@@ -3,7 +3,8 @@ export const userService = {
 	logout,
 	register,
 	sendPoll,
-	getMyPolls
+	getMyPolls,
+	deleteMyPoll
 };
 
 function login(email, password) {
@@ -61,7 +62,6 @@ function sendPoll(email,name,values) {
 		if(!res.ok) return Promise.reject(res.statusText);
 		return res.json();
 	}).then(poll => {
-		console.log("res poll " + JSON.stringify(poll));
 		return poll;
 	});	
 }
@@ -77,5 +77,18 @@ function getMyPolls(email) {
 		return res.json();
 	}).then(polls => {
 		return polls;
+	});
+}
+function deleteMyPoll(email,name) {
+	const opts = {
+		method:"DELETE",
+		headers:{"Content-Type":"application/json"},
+		body:JSON.stringify({email,name})
+	};
+	return fetch("/deletePoll",opts).then(res => {
+		if(!res.ok) return Promise.reject(res.statusText);
+		return res.json();
+	}).then(message => {
+		return message;
 	});
 }
