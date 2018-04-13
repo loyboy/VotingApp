@@ -58,6 +58,31 @@ module.exports = (() => {
 		});
 	});
 
+	api.delete("/deletePoll",function (req,res,next){
+		res.setHeader("Content-Type","application/json");
+		deleteMyPoll(req.body).then(data => {
+			return data.json();
+		}).then(message => {
+			res.send(JSON.stringify(message));
+			next();
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+			next();
+		});
+	});
+ 
+	api.get("/polls/:id",function(req,res,next) {
+		res.setHeader("Content-Type","application/json");
+		getPollById(req.params.id).then(data => {
+			return data.json();
+		}).then(poll => {
+			res.redirect("/polls");
+			res.send(JSON.stringify(poll));
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+		});
+	});
+
 	return api;
 });
 
@@ -121,3 +146,27 @@ function getMyPolls(email) {
 		});
 	});
 }
+function deleteMyPoll(body) {
+	const {email,name} = body;
+	return new Promise((resolve,reject) => {
+		poll.deleteMyPoll(email,name).then(res => {
+			if(res) {
+				resolve({ok:true,json:()=>res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+} 
+
+function getPollById(id) {
+	return new Promise((resolve,reject) => {
+		poll.getPollById(id).then(res => {
+			if(res) {
+				resolve({ok:true,json:() => res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+} 

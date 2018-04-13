@@ -1,5 +1,6 @@
 var MongoClient = require("mongodb").MongoClient;
 var bcrypt = require("bcrypt");
+var ObjectId = require('mongodb').ObjectID;
 
 var db_name = process.env.Db_Name || 'voting-app';
 var db_host = process.env.Db_Host || 'localhost';
@@ -22,7 +23,9 @@ exports.user = {
 
 exports.poll = {
 	createPoll,
-	getMyPolls
+	getMyPolls,
+	deleteMyPoll,
+	getPollById
 };
 
 function findUser(email,password) {
@@ -103,5 +106,30 @@ function getMyPolls (email) {
 			if(res) 
 				resolve({ok:true,message:res});
 		});
+	});
+}
+
+function deleteMyPoll(email,name) {
+	return new Promise((resolve,reject) => {
+		db.collection("polls").remove({createdBy:email,name:name},function(err,res){
+			if(err) reject({ok:false,message:err});
+			if(res) 
+				resolve({ok:true,message:{name:name,message:"Deleted successfully"}});
+		});
+	})
+}
+
+function getPollById(id) {
+
+	return new Promise((resolve,reject) => {
+		db.collection("polls").findOne({_id:ObjectId(id)},function(err,res) {
+			if(err ) {
+				reject({ok:false,message:err});
+			}
+			if(!res) reject({ok:false,message:"Poll was not found "});
+			if(res) {
+				resolve({ok:true,message:res});
+			}
+		}); 
 	});
 }
