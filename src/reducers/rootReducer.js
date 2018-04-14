@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {login} from './../actions/index';
 import {auth,register,alert} from './auth';
-import {poll,getMyPolls,deleteMyPoll} from './poll';
+import {poll,getMyPolls,deleteMyPoll,getAllPolls} from './poll';
 
 const rootReducer = combineReducers({
 	auth,
@@ -9,7 +9,8 @@ const rootReducer = combineReducers({
 	alert,
 	poll,
 	getMyPolls,
-	deleteMyPoll
+	deleteMyPoll,
+	getAllPolls
 });
 
 export default rootReducer;

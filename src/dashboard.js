@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
 					this.state.poll=="1" && 
 					<MyPolls/>
 				}
-				<Route path="/:id" component={Poll} />
+				
 			</div>
 		);
 	}

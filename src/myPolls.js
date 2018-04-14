@@ -1,5 +1,5 @@
 import React from 'react';
-import {userActions} from './actions/index';
+import {pollActions} from './actions/polls';
 import {connect} from 'react-redux';
 import {Link } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ class MyPolls extends React.Component{
 	}
 	componentDidMount() {
 		const email = JSON.parse(localStorage.getItem("user")).email;
-		this.props.dispatch(userActions.getMyPolls(email));
+		this.props.dispatch(pollActions.getMyPolls(email));
 		this.setState({
 			email:email
 		});
@@ -43,7 +43,7 @@ class MyPolls extends React.Component{
 		}
 	}
 	deletePoll(e) {
-		this.props.dispatch(userActions.deleteMyPoll(this.state.email,e.target.name));
+		this.props.dispatch(pollActions.deleteMyPoll(this.state.email,e.target.name));
 	} 
 	render () {
 		var self = this;

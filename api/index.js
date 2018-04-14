@@ -3,6 +3,7 @@ var user = require("../db/index").user;
 var poll = require("../db/index").poll;
 var jwt = require("jsonwebtoken");
 
+
 module.exports = (() => {
 	let api = express.Router();
 
@@ -76,8 +77,19 @@ module.exports = (() => {
 		getPollById(req.params.id).then(data => {
 			return data.json();
 		}).then(poll => {
-			res.redirect("/polls");
+			//res.redirect("/polls");
 			res.send(JSON.stringify(poll));
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+		});
+	});
+
+	api.get("/allPolls",function (req,res,next) {
+		res.setHeader("Content-Type","application/json");
+		getAllPolls().then(data => {
+			return data.json();
+		}).then(polls => {
+			res.send(JSON.stringify(polls));
 		}).catch(err => {
 			res.send(JSON.stringify(err));
 		});
@@ -170,3 +182,14 @@ function getPollById(id) {
 		});
 	});
 } 
+function getAllPolls() {
+	return new Promise((resolve,reject) => {
+		poll.getAllPolls().then(res => {
+			if(res) {
+				resolve({ok:true,json:() => res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+}

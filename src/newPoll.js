@@ -1,5 +1,5 @@
 import React from 'react';
-import {userActions} from './actions/index';
+import {pollActions} from './actions/polls';
 import {connect} from 'react-redux';
 
 class NewPoll extends React.Component{
@@ -38,7 +38,7 @@ class NewPoll extends React.Component{
 		const email = JSON.parse(localStorage.getItem("user")).email;
 		let pollName = this.state.name;
 		let options = this.state.values;
-		this.props.dispatch(userActions.sendPoll(email, pollName,options));
+		this.props.dispatch(pollActions.sendPoll(email, pollName,options));
 	}
 	render () {
 		var self = this;

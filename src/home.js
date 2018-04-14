@@ -1,4 +1,5 @@
 import React from 'react';
+import Polls from './polls';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -16,6 +17,9 @@ class Home extends React.Component {
 				</div>
 				<div className="signup">
 					<a className="btn btn-success" href="/register"> Sign Up</a>
+				</div>
+				<div className="polls">
+					<Polls/>
 				</div>
 			</div>
 		);

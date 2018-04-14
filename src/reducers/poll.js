@@ -55,3 +55,22 @@ export function deleteMyPoll(state = {}, action ) {
 			return state;
 	}
 }
+export function getAllPolls(state = {} , action) {
+	switch(action.type) {
+		case "GET_ALL_POLLS_REQUEST" : 
+			return {
+				getting_all_polls:true,
+			};
+		case "GET_ALL_POLLS_SUCCESS" : 
+			return {
+				got_all_polls:true,
+				polls:action.data
+			};
+		case "GET_ALL_POLLS_FAILURE" :
+			return {
+				error:action.error
+			};
+		default :
+			return state;
+	}	
+}

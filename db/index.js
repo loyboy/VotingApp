@@ -25,7 +25,8 @@ exports.poll = {
 	createPoll,
 	getMyPolls,
 	deleteMyPoll,
-	getPollById
+	getPollById,
+	getAllPolls,
 };
 
 function findUser(email,password) {
@@ -131,5 +132,18 @@ function getPollById(id) {
 				resolve({ok:true,message:res});
 			}
 		}); 
+	});
+}
+function getAllPolls () {
+	return new Promise((resolve,reject) => {
+		db.collection("polls").find({}).toArray(function(err,res){
+			if(err) {
+				reject({ok:false,message:err});
+			}
+			if(!res) reject({ok:false,message:"No polls available"});
+			if(res) {
+				resolve({ok:true,message:res});
+			}
+		});
 	});
 }
