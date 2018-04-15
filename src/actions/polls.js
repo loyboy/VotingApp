@@ -4,7 +4,8 @@ export const pollActions = {
 	getAllPolls,
 	sendPoll,
 	getMyPolls,
-	deleteMyPoll
+	deleteMyPoll,
+	getPollById
 };
 function sendPoll (email, name, values) {
 	
@@ -132,6 +133,38 @@ function getAllPolls () {
 	function failure(error) {
 		return {
 			type:"GET_ALL_POLLS_FAILURE",
+			error
+		};
+	}
+} 
+function getPollById (id) {
+	return dispatch => {
+		dispatch(request());
+		pollService.getPollById(id).then(data => {
+			if(data.ok) {
+				dispatch(success(data.message));
+			}
+			else {
+				dispatch(failure(data.message));
+			}
+		});
+		
+	}
+
+	function request() {
+		return {
+			type:"GET_POLL_ID_REQUEST"
+		};
+	}
+	function success(data) {
+		return {
+			type:"GET_POLL_ID_SUCCESS",
+			data
+		};
+	}
+	function failure(error) {
+		return {
+			type:"GET_POLL_ID_FAILURE",
 			error
 		};
 	}

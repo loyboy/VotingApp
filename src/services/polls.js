@@ -2,7 +2,8 @@ export const pollService = {
 	getAllPolls,
 	sendPoll,
 	getMyPolls,
-	deleteMyPoll
+	deleteMyPoll,
+	getPollById
 };
 
 function sendPoll(email,name,values) {
@@ -53,9 +54,22 @@ function getAllPolls() {
 	};
 
 	return fetch("/allPolls",opts).then(res =>{
-		if(!res.ok) Promise.reject(res.statusCode);
+		if(!res.ok) return Promise.reject(res.statusCode);
 		return res.json(); 
 	}).then(data => {
 		return data;
 	})
+}
+function getPollById(id) {
+	const opts = {
+		method:"POST",
+		headers: {"Content-Type": "application/json"},
+		body:JSON.stringify({id})
+	};
+	return fetch("/poll/id",opts).then(res => {
+		if(!res.ok) return Promise.reject(res.statusText);
+		return res.json();
+	}).then(poll => {
+		return poll;
+	});
 }

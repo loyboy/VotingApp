@@ -49,7 +49,7 @@ class MyPolls extends React.Component{
 		var self = this;
 		var myPolls = this.state.myPolls.map(function(el,id){
 			return <div className="form-group" key={id}>
-				   <Link to={{ pathname: '/polls/'+el._id }}>
+				   <Link to={{ pathname: '/poll/'+el._id }}>
 				    <input type="text" className="form-control" name="new-poll-name" id="new-poll-name" readOnly 
 					 value = {el.name}  />
 					</Link>

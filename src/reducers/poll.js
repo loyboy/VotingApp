@@ -74,3 +74,22 @@ export function getAllPolls(state = {} , action) {
 			return state;
 	}	
 }
+export function getPollById(state = {} , action) {
+	switch(action.type) {
+		case "GET_POLL_ID_REQUEST" : 
+			return {
+				getting_poll_id:true,
+			};
+		case "GET_POLL_ID_SUCCESS" : 
+			return {
+				got_poll_id:true,
+				poll:action.data
+			};
+		case "GET_POLL_ID_FAILURE" :
+			return {
+				error:action.error
+			};
+		default :
+			return state;
+	}	
+}

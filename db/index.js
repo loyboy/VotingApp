@@ -121,7 +121,6 @@ function deleteMyPoll(email,name) {
 }
 
 function getPollById(id) {
-
 	return new Promise((resolve,reject) => {
 		db.collection("polls").findOne({_id:ObjectId(id)},function(err,res) {
 			if(err ) {

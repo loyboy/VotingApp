@@ -16,7 +16,6 @@ class Polls  extends React.Component {
 	componentDidUpdate(prevProps,prevState) {
 
 		if(prevProps.getAllPolls!=this.props.getAllPolls &&  this.props.getAllPolls["got_all_polls"]) {
-			console.log("dat " + JSON.stringify(this.props.getAllPolls.polls))
 			this.setState({
 				polls:this.props.getAllPolls.polls
 			});
@@ -25,7 +24,7 @@ class Polls  extends React.Component {
 	render() {
 		var polls = this.state.polls.map(function (el,id){
 			return <div className="form-group" key={id}>
-				   <Link to={{ pathname: '/polls/'+el._id }}>
+				   <Link to={{ pathname: '/poll/'+el._id }}>
 				    <input type="text" className="form-control" name="all-polls-name" id="all-polls-name" readOnly 
 					 value = {el.name}  />
 					</Link>

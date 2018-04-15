@@ -44,7 +44,7 @@ class VotingApp extends React.Component {
 		          		<Route exact path="/login" component={ Login} />
 		          		<Route exact path="/register" component={Register} />
 		          		<Route exact path="/logout" component={Logout} />
-		        		<Route path="/polls" component={Dashboard} >
+		        		<Route path="/poll/:id" component={Poll} >
 		        		</Route>
 		        			
 		        	</Switch>
