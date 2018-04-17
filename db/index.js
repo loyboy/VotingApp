@@ -77,6 +77,14 @@ function createUser(user) {
 }
 
 function createPoll(poll) {
+	let values = [...poll.values];
+	for(let i=0;i<poll.values.length;i++) {
+		values[i] = {
+			name:poll.values[i],
+			votes:1
+		}
+	};
+	poll.values = values;
 	let pollJSON = {
 		name:poll.name,
 		values:poll.values,

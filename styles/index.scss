@@ -117,3 +117,22 @@ body {
 	margin-right: auto;
 	width: calc((100%) - (200px));
 }
+svg {
+	float: right;
+	background: gray;
+	width:60%;
+}
+.vote-options{
+	position: absolute;
+	margin-top:0px;
+	margin-left: 20px;
+    margin-right: auto;
+    width: 30%;
+}
+.panel-body {
+	background: gray;
+}
+.vote-btn {
+	margin-top:5px;
+	width: 100%;
+}
