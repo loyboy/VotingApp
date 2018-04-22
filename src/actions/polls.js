@@ -5,7 +5,8 @@ export const pollActions = {
 	sendPoll,
 	getMyPolls,
 	deleteMyPoll,
-	getPollById
+	getPollById,
+	vote
 };
 function sendPoll (email, name, values) {
 	
@@ -165,6 +166,38 @@ function getPollById (id) {
 	function failure(error) {
 		return {
 			type:"GET_POLL_ID_FAILURE",
+			error
+		};
+	}
+} 
+function vote (id,value) {
+	return dispatch => {
+		dispatch(request());
+		pollService.vote(id,value).then(data => {
+			if(data.ok) {
+				dispatch(success(data.message));
+			}
+			else {
+				dispatch(failure(data.message));
+			}
+		});
+		
+	}
+
+	function request() {
+		return {
+			type:"VOTE_REQUEST"
+		};
+	}
+	function success(data) {
+		return {
+			type:"VOTE_SUCCESS",
+			data
+		};
+	}
+	function failure(error) {
+		return {
+			type:"VOTE_FAILURE",
 			error
 		};
 	}

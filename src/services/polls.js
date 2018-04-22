@@ -3,7 +3,8 @@ export const pollService = {
 	sendPoll,
 	getMyPolls,
 	deleteMyPoll,
-	getPollById
+	getPollById,
+	vote
 };
 
 function sendPoll(email,name,values) {
@@ -67,6 +68,19 @@ function getPollById(id) {
 		body:JSON.stringify({id})
 	};
 	return fetch("/poll/id",opts).then(res => {
+		if(!res.ok) return Promise.reject(res.statusText);
+		return res.json();
+	}).then(poll => {
+		return poll;
+	});
+}
+function vote(id,value) {
+	const opts = {
+		method:"POST",
+		headers: {"Content-Type": "application/json"},
+		body:JSON.stringify({id,value})
+	};
+	return fetch("/vote/id",opts).then(res => {
 		if(!res.ok) return Promise.reject(res.statusText);
 		return res.json();
 	}).then(poll => {

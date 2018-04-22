@@ -27,6 +27,7 @@ exports.poll = {
 	deleteMyPoll,
 	getPollById,
 	getAllPolls,
+	vote
 };
 
 function findUser(email,password) {
@@ -153,4 +154,26 @@ function getAllPolls () {
 			}
 		});
 	});
+}
+function vote(id,value) {
+
+	return new Promise((resolve,reject) => {
+		db.collection("polls").findOne({_id:ObjectId(id)},function(err,res) {
+			if(res) {
+				let poll = res;
+				poll.values = poll.values.map(x => {
+					if(x.name==value){
+						x.votes = x.votes + 1;
+					}
+					return x;
+				});
+				db.collection("polls").update({_id:ObjectId(id)},poll,function(err,res) {
+					if(err) reject({ok:false,message:"Voting error: " + err});
+					if(res) {
+						resolve({ok:true,message:poll});
+					}
+				});
+			}
+		});
+	})
 }

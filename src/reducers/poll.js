@@ -93,3 +93,22 @@ export function getPollById(state = {} , action) {
 			return state;
 	}	
 }
+export function vote(state = {} , action) {
+	switch(action.type) {
+		case "VOTE_REQUEST" : 
+			return {
+				voting:true,
+			};
+		case "VOTE_SUCCESS" : 
+			return {
+				voted:true,
+				poll:action.data
+			};
+		case "VOTE_FAILURE" :
+			return {
+				error:action.error
+			};
+		default :
+			return state;
+	}	
+}

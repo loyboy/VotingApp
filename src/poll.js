@@ -7,13 +7,16 @@ class Poll extends React.Component {
 		super(props);
 		this.state = {
 			options:[],
-			name:""
+			id:""
 		};
 		this.submitVote = this.submitVote.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 	}
 	componentDidMount() {
 		 let id = this.props.match.params.id;
+		 this.setState({
+		 	id:id
+		 });
 		 this.props.dispatch(pollActions.getPollById(id));
 	}
 	componentDidUpdate(prevProps,prevState) {
@@ -21,7 +24,11 @@ class Poll extends React.Component {
 		if(prevProps.getPollById!=this.props.getPollById && this.props.getPollById["got_poll_id"]) {
 			this.setState({
 				options:self.props.getPollById.poll.values,
-				name:self.props.getPollById.poll.name
+			});
+		}
+		if(prevProps.vote!=this.props.vote && this.props.vote["voted"]) {
+			this.setState({
+				options:self.props.vote.poll.values,
 			});
 		}
 	}
@@ -70,7 +77,6 @@ class Poll extends React.Component {
 		       .attr("text-anchor", "middle") 
 		       .attr("fill", function(d, i) { return color(i); })
 		       .text(function(d, i) { 
-		       	console.log(d)
 		       	return d.data.name});
 
 	}
@@ -80,8 +86,9 @@ class Poll extends React.Component {
 		});
 	}
 	submitVote(e) {
-		if(this.state.value)
-			console.log("submit " + this.state.value + " : " + this.state.name)
+		if(this.state.value) {
+			this.props.dispatch(pollActions.vote(this.state.id,this.state.value));
+		}
 	}
 	render() {
 		var data = this.drawPieChart();
@@ -95,7 +102,8 @@ class Poll extends React.Component {
 					<div className="form-group">
 					  <p>{this.state.name}</p>	
 					  <label htmlFor="sel1">Vote for :</label>
-					  <select className="form-control" id="sel1" onChange={self.handleChange}>
+					  <select className="form-control" id="sel1" onChange={self.handleChange} >
+					   <option value=""> Choose an option: </option>
 					   {vote}
 					  </select>
 					  <button type="submit" onClick={this.submitVote} className="vote-btn btn btn-primary">Submit</button>
@@ -108,9 +116,9 @@ class Poll extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {getPollById}   =  state;
+	const {getPollById,vote}   =  state;
 	return {
-		getPollById
+		getPollById,vote
 	}
 }
 

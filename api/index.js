@@ -93,6 +93,17 @@ module.exports = (() => {
 		});
 	});
 
+	api.post("/vote/id",function(req,res,next) {
+		res.setHeader("Content-Type","application/json");
+		vote(req.body).then(data => {
+			return data.json();
+		}).then(poll => {
+			res.send(JSON.stringify(poll));
+		}).catch(err => {
+			res.send(JSON.stringify(err));
+		});
+	});
+
 	return api;
 });
 
@@ -183,6 +194,18 @@ function getPollById(id) {
 function getAllPolls() {
 	return new Promise((resolve,reject) => {
 		poll.getAllPolls().then(res => {
+			if(res) {
+				resolve({ok:true,json:() => res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+}
+function vote(body) {
+	const {id,value} = body;
+	return new Promise((resolve,reject) => {
+		poll.vote(id,value).then(res => {
 			if(res) {
 				resolve({ok:true,json:() => res});
 			}
