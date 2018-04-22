@@ -174,6 +174,7 @@ function register(body) {
 				  data: 'voting-app'
 				}, 'secret');
 				res.token = token;
+				insertTokens(token,body.email);
 				resolve({ok:true,json:()=>res});
 			}
 		}).catch(err => {
