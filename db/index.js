@@ -5,8 +5,13 @@ var ObjectId = require('mongodb').ObjectID;
 var db_name = process.env.Db_Name || 'voting-app';
 var db_host = process.env.Db_Host || 'localhost';
 var db_port = process.env.Db_Port || '27017';
-
-var url = 'mongodb://'+db_host+':'+db_port;
+if(process.env.NODE_ENV !== 'production')
+	var url = 'mongodb://'+db_host+':'+db_port;
+else {
+	var dbuser = process.env.user;
+	var dbpassword = process.env.password;
+	var url = "mongodb://"+dbuser+":"+dbpassword+"@ds253889.mlab.com:53889";
+}
 var db = null;
 var client = null;
 
