@@ -27,7 +27,8 @@ exports.poll = {
 	deleteMyPoll,
 	getPollById,
 	getAllPolls,
-	vote
+	vote,
+	checkVotersByIp
 };
 
 function findUser(email,password) {
@@ -176,4 +177,26 @@ function vote(id,value) {
 			}
 		});
 	})
+}
+function checkVotersByIp(id,ip) {
+	return new Promise((resolve,reject) => {
+		db.collection("voters").findOne({_id:ObjectId(id)},function(err,res) {
+			let voters = res && res.voters || [];
+			let output = voters.filter(function(v){ return v==ip;});
+			if(output.length) {
+				reject({ok:false,message:"You cannot vote more than once "});
+			}
+			else {
+				voters.push(ip);
+				if(!res) res = {};
+				if(!res.voters) res.voters = {};
+				res.voters = voters;
+				db.collection("voters").update({_id:ObjectId(id)},res, {upsert: true}, function(err,res){
+					if(res) {
+						resolve({ok:true,message:res});
+					}
+				});
+			}
+		});
+	});
 }

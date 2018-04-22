@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import VotingApp from './app';
+import VotingApp from './components/app';
 import store from './helpers/store';
 import {Provider} from 'react-redux';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {pollActions} from './actions/polls';
+import {pollActions} from './../actions/polls';
 import {connect} from 'react-redux';
 import {Link } from 'react-router-dom';
 

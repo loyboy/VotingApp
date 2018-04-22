@@ -95,12 +95,20 @@ module.exports = (() => {
 
 	api.post("/vote/id",function(req,res,next) {
 		res.setHeader("Content-Type","application/json");
-		vote(req.body).then(data => {
-			return data.json();
-		}).then(poll => {
-			res.send(JSON.stringify(poll));
-		}).catch(err => {
-			res.send(JSON.stringify(err));
+		let ip = req.connection.remoteAddress;
+
+		checkVotersByIp(req.body.id,ip).then(ok => {
+				return ok.json();
+			}).then(check => {
+					vote(req.body).then(data => {
+						return data.json();
+					}).then(poll => {
+						res.send(JSON.stringify(poll));
+					}).catch(err => {
+						res.send(JSON.stringify(err));
+					});
+			}).catch(err => {
+				res.send(JSON.stringify(err));
 		});
 	});
 
@@ -207,6 +215,17 @@ function vote(body) {
 	return new Promise((resolve,reject) => {
 		poll.vote(id,value).then(res => {
 			if(res) {
+				resolve({ok:true,json:() => res});
+			}
+		}).catch(err => {
+			reject({ok:false,message:err.message});
+		});
+	});
+}
+function checkVotersByIp(id,ip) {
+	return new Promise((resolve,reject) => {
+		poll.checkVotersByIp(id,ip).then(res => {
+			if(res){
 				resolve({ok:true,json:() => res});
 			}
 		}).catch(err => {

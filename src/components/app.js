@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-require("../styles/index.scss");
+require("../../styles/index.scss");
 import { BrowserRouter as HashRouter, Route, Link } from 'react-router-dom';
 import { Switch, Redirect,browserHistory } from 'react-router';
 import Login from './login';

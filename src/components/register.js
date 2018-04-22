@@ -1,5 +1,5 @@
 import React from 'react';
-import {userActions} from './actions/index';
+import {userActions} from './../actions/index';
 import {connect} from 'react-redux';
 
 class Register extends React.Component {
