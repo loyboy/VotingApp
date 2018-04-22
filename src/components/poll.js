@@ -7,7 +7,8 @@ class Poll extends React.Component {
 		super(props);
 		this.state = {
 			options:[],
-			id:""
+			id:"",
+			name:""
 		};
 		this.submitVote = this.submitVote.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -24,6 +25,7 @@ class Poll extends React.Component {
 		if(prevProps.getPollById!=this.props.getPollById && this.props.getPollById["got_poll_id"]) {
 			this.setState({
 				options:self.props.getPollById.poll.values,
+				name:self.props.getPollById.poll.name
 			});
 		}
 		if(prevProps.vote!=this.props.vote && this.props.vote["voted"]) {
