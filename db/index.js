@@ -10,7 +10,7 @@ if(process.env.NODE_ENV !== 'production')
 else {
 	var dbuser = process.env.user;
 	var dbpassword = process.env.password;
-	var url = "mongodb://"+dbuser+":"+dbpassword+"@ds253889.mlab.com:53889";
+	var url = "mongodb://"+dbuser+":"+dbpassword+"@ds253889.mlab.com:53889/voting-app";
 }
 var db = null;
 var client = null;
