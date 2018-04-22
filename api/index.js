@@ -34,41 +34,68 @@ module.exports = (() => {
 
 	api.post("/sendPoll",function (req,res,next) {
 		res.setHeader("Content-Type","application/json");
-		createPoll(req.body).then(data => {
-			return data.json();
-		}).then(poll => {
-			res.send(JSON.stringify(poll));
-			next();
-		}).catch(err => {
-			res.send(JSON.stringify(err));
-			next();
+		user.getToken(req.body.email).then(token => {
+			if("Bearer "+token.token == req.headers.authorization ){
+				createPoll(req.body).then(data => {
+					return data.json();
+				}).then(poll => {
+					res.send(JSON.stringify(poll));
+					next();
+				}).catch(err => {
+					res.send(JSON.stringify(err));
+					next();
+				});
+			}
+			else {
+				res.send(JSON.stringify({ok:false,message:"You are not authorized"}));
+				next();
+			}
 		});
 	});
 
 	api.post("/myPolls",function(req,res,next) {
+
 		res.setHeader("Content-Type","application/json");
-		getMyPolls(req.body.email).then(data => {
-			return data.json();
-		}).then(polls => {
-			res.send(JSON.stringify(polls));
-			next();
-		}).catch(err => {
-			res.send(JSON.stringify(err));
-			next();
+		user.getToken(req.body.email).then(token => {
+			if("Bearer "+token.token == req.headers.authorization ){
+				getMyPolls(req.body.email).then(data => {
+					return data.json();
+				}).then(polls => {
+					res.send(JSON.stringify(polls));
+					next();
+				}).catch(err => {
+					res.send(JSON.stringify(err));
+					next();
+				});
+			}
+			else {
+				res.send(JSON.stringify({ok:false,message:"You are not authorized"}));
+				next();
+			}
+		
 		});
 	});
 
 	api.delete("/deletePoll",function (req,res,next){
 		res.setHeader("Content-Type","application/json");
-		deleteMyPoll(req.body).then(data => {
-			return data.json();
-		}).then(message => {
-			res.send(JSON.stringify(message));
-			next();
-		}).catch(err => {
-			res.send(JSON.stringify(err));
-			next();
+		user.getToken(req.body.email).then(token => {
+			if("Bearer "+token.token == req.headers.authorization ){
+				deleteMyPoll(req.body).then(data => {
+					return data.json();
+				}).then(message => {
+					res.send(JSON.stringify(message));
+					next();
+				}).catch(err => {
+					res.send(JSON.stringify(err));
+					next();
+				});
+			}
+			else {
+				res.send(JSON.stringify({ok:false,message:"You are not authorized"}));
+				next();
+			}
 		});
+		
 	});
  
 	api.post("/poll/id",function(req,res,next) {
@@ -80,6 +107,7 @@ module.exports = (() => {
 		}).catch(err => {
 			res.send(JSON.stringify(err));
 		});
+		
 	});
 
 	api.get("/allPolls",function (req,res,next) {
@@ -98,18 +126,19 @@ module.exports = (() => {
 		let ip = req.connection.remoteAddress;
 
 		checkVotersByIp(req.body.id,ip).then(ok => {
-				return ok.json();
-			}).then(check => {
-					vote(req.body).then(data => {
-						return data.json();
-					}).then(poll => {
-						res.send(JSON.stringify(poll));
-					}).catch(err => {
-						res.send(JSON.stringify(err));
-					});
+			return ok.json();
+		}).then(check => {
+			vote(req.body).then(data => {
+				return data.json();
+			}).then(poll => {
+				res.send(JSON.stringify(poll));
 			}).catch(err => {
 				res.send(JSON.stringify(err));
+			});
+		}).catch(err => {
+			res.send(JSON.stringify(err));
 		});
+		
 	});
 
 	return api;
@@ -127,6 +156,7 @@ function authenticate(body) {
 				  data: 'voting-app'
 				}, 'secret');
 				res.token = token;
+				insertTokens(token,body.email);
 				resolve({ok:true,json:() => res});
 			}
 		}).catch(err => {
@@ -232,4 +262,7 @@ function checkVotersByIp(id,ip) {
 			reject({ok:false,message:err.message});
 		});
 	});
+}
+function insertTokens(token , email) {
+	return user.insertTokens(token,email);
 }

@@ -18,7 +18,9 @@ MongoClient.connect(url, function(err, client) {
 
 exports.user = {
 	findUser,
-	createUser
+	createUser,
+	insertTokens,
+	getToken
 };
 
 exports.poll = {
@@ -78,6 +80,29 @@ function createUser(user) {
 	});
 }
 
+function insertTokens(token , email) {
+	let tokenData = {
+		token:token,
+		email:email,
+		createdBy:new Date()
+	};
+	return new Promise((resolve,reject) => {
+			db.collection("tokens").update({email:email},tokenData,{upsert: true},function(err,res){
+				if(res) {
+					resolve({ok:true,message:res});
+				}
+				if(err) reject({ok:false,message:err});
+			});
+	});
+}
+function getToken(email) {
+	return new Promise((resolve,reject) => {
+		db.collection("tokens").findOne({email:email},function(err,res){
+			if(err) reject({ok:false,message:err});
+			resolve({ok:true,token:res.token});
+		});
+	});
+}
 function createPoll(poll) {
 	let values = [...poll.values];
 	for(let i=0;i<poll.values.length;i++) {

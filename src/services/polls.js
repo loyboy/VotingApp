@@ -7,10 +7,15 @@ export const pollService = {
 	vote
 };
 
+var token = localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).token || "";
+
 function sendPoll(email,name,values) {
 	const opts = {
 		method:"POST",
-		headers: {"Content-Type": "application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 		body:JSON.stringify({email, name, values})
 	};
 	return fetch("/sendPoll",opts).then(res => {
@@ -24,7 +29,10 @@ function sendPoll(email,name,values) {
 function getMyPolls(email) {
 	const opts = {
 		method:"POST",
-		headers: {"Content-Type": "application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 		body:JSON.stringify({email})
 	};
 	return fetch("/myPolls",opts).then(res => {
@@ -37,7 +45,10 @@ function getMyPolls(email) {
 function deleteMyPoll(email,name) {
 	const opts = {
 		method:"DELETE",
-		headers:{"Content-Type":"application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 		body:JSON.stringify({email,name})
 	};
 	return fetch("/deletePoll",opts).then(res => {
@@ -51,7 +62,10 @@ function deleteMyPoll(email,name) {
 function getAllPolls() {
 	const opts = {
 		method:"GET",
-		headers: {"Content-Type": "application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 	};
 
 	return fetch("/allPolls",opts).then(res =>{
@@ -64,7 +78,10 @@ function getAllPolls() {
 function getPollById(id) {
 	const opts = {
 		method:"POST",
-		headers: {"Content-Type": "application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 		body:JSON.stringify({id})
 	};
 	return fetch("/poll/id",opts).then(res => {
@@ -77,7 +94,10 @@ function getPollById(id) {
 function vote(id,value) {
 	const opts = {
 		method:"POST",
-		headers: {"Content-Type": "application/json"},
+		headers: new Headers({
+	     'Authorization': 'Bearer '+token, 
+	     'Content-Type': 'application/json'
+	   	}),
 		body:JSON.stringify({id,value})
 	};
 	return fetch("/vote/id",opts).then(res => {
